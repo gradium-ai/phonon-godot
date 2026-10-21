@@ -1,0 +1,137 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  lint:
+    name: Format and clippy
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: lint
+      - run: cargo fmt --check
+      - run: cargo clippy --release --locked -- -D warnings
+
+  build:
+    name: Build / ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # One universal library: Apple silicon and Intel, each with the features and CPU
+          # baseline of the ptts release builds (see Cargo.toml and .cargo/config.toml).
+          - platform: macos
+            runner: macos-15
+            targets: aarch64-apple-darwin x86_64-apple-darwin
+          - platform: linux
+            runner: ubuntu-22.04
+            targets: x86_64-unknown-linux-gnu
+          - platform: windows
+            runner: windows-2022
+            targets: x86_64-pc-windows-msvc
+    env:
+      # The oldest macOS the ptts release builds are checked on.
+      MACOSX_DEPLOYMENT_TARGET: '15.0'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.targets }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.platform }}
+      - name: Build
+        shell: bash
+        run: |
+          set -euo pipefail
+          for target in ${{ matrix.targets }}; do
+            cargo build --release --locked --target "$target"
+          done
+      # xn turns the KleidiAI kernels off with a hidden warning when the toolchain cannot build
+      # them, so check the build script's recorded output instead.
+      - name: Check that the KleidiAI kernels are in the build
+        if: matrix.platform == 'macos'
+        run: |
+          if ! grep -qs "cargo:rustc-cfg=xn_kai" target/aarch64-apple-darwin/release/build/xn-*/output; then
+            echo "::error::the KleidiAI kernels did not build with this toolchain"
+            exit 1
+          fi
+      - name: Stage the library
+        shell: bash
+        run: |
+          set -euo pipefail
+          out=staged/${{ matrix.platform }}
+          mkdir -p "$out"
+          case "${{ matrix.platform }}" in
+            macos)
+              lipo -create -output "$out/libphonon_godot.dylib" \
+                target/aarch64-apple-darwin/release/libphonon_godot.dylib \
+                target/x86_64-apple-darwin/release/libphonon_godot.dylib
+              lipo -info "$out/libphonon_godot.dylib"
+              codesign --force --sign - "$out/libphonon_godot.dylib"
+              ;;
+            linux)
+              cp target/x86_64-unknown-linux-gnu/release/libphonon_godot.so "$out/libphonon_godot.x86_64.so"
+              ;;
+            windows)
+              cp target/x86_64-pc-windows-msvc/release/phonon_godot.dll "$out/phonon_godot.x86_64.dll"
+              ;;
+          esac
+          ls -l "$out"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: lib-${{ matrix.platform }}
+          path: staged/${{ matrix.platform }}
+          if-no-files-found: error
+
+  package:
+    name: Package the addon
+    needs: [lint, build]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: lib-*
+          path: libs
+      - name: Assemble addons/phonon
+        run: |
+          set -euo pipefail
+          mkdir -p package/addons
+          cp -R addons/phonon package/addons/phonon
+          for platform in macos linux windows; do
+            mkdir -p "package/addons/phonon/bin/$platform"
+            cp "libs/lib-$platform"/* "package/addons/phonon/bin/$platform/"
+          done
+          cp LICENSE-MIT LICENSE-APACHE package/addons/phonon/
+          # Every library the .gdextension file names must be in the package.
+          grep -o 'res://addons/phonon/bin/[^"]*' addons/phonon/phonon.gdextension | sort -u |
+            while read -r path; do test -f "package/${path#res://}" || { echo "::error::missing ${path}"; exit 1; }; done
+          find package -type f | sort
+      # The artifact's zip holds addons/phonon/ at its root, ready to extract into a project.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: phonon-godot-addon
+          path: package
+          if-no-files-found: error
