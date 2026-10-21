@@ -1,0 +1,12 @@
+# Rust build output
+/target/
+
+# Built libraries: CI builds them, and `cargo build` output is copied here for local runs
+/addons/phonon/bin/
+
+# Godot's per-project cache
+.godot/
+
+# Packaged addon and test output
+/package/
+*.wav

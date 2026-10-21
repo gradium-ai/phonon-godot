@@ -1,0 +1,26 @@
+[package]
+name = "phonon-godot"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.94"
+description = "Phonon on-device text-to-speech for Godot"
+repository = "https://github.com/gradium-ai/phonon-godot"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Targets the current stable Godot 4 API, which `addons/phonon/phonon.gdextension` requires.
+godot = { version = "0.5.5", features = ["api-4-7", "register-docs"] }
+# `hf` reads the checkpoint's tokenizer and `hub` downloads `hf://` models, as the ptts CLI does.
+ptts = { version = "0.4.0", features = ["hf", "hub"] }
+
+# The Apple features the ptts release builds use: Accelerate on every Mac, and on Apple silicon
+# also Metal (for f32 weights) and Arm's KleidiAI kernels for q8 (only active on SME2 CPUs).
+[target.'cfg(target_os = "macos")'.dependencies]
+ptts = { version = "0.4.0", features = ["accelerate"] }
+
+[target.'cfg(all(target_os = "macos", target_arch = "aarch64"))'.dependencies]
+ptts = { version = "0.4.0", features = ["kai", "metal"] }
