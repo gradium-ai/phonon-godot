@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://main.gd" id="1"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Column" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Text" type="LineEdit" parent="Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hello! I am Phonon, and I am speaking from inside Godot."
+
+[node name="Row" type="HBoxContainer" parent="Margin/Column"]
+layout_mode = 2
+
+[node name="Voices" type="OptionButton" parent="Margin/Column/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Speak" type="Button" parent="Margin/Column/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Speak"
+
+[node name="Stop" type="Button" parent="Margin/Column/Row"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Stop"
+
+[node name="Status" type="Label" parent="Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="PhononSpeaker" type="PhononSpeaker" parent="."]
