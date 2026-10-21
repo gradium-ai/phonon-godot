@@ -1,5 +1,8 @@
 //! The `PhononSpeaker` node.
 
+// The `init` that `#[class(init)]` generates writes `base: base`, which clippy flags from 1.99.
+#![allow(clippy::redundant_field_names)]
+
 use crate::engine::{self, Cancel, Model, Settings, SpeechEvent, Synthesized};
 use godot::classes::audio_stream_generator::AudioStreamGeneratorMixRate;
 use godot::classes::audio_stream_wav::Format;
