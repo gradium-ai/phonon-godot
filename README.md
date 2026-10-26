@@ -1,5 +1,7 @@
 # Phonon for Godot
 
+<img src="store/phonon-monogram.png" alt="Phonon" width="96">
+
 Speak text in your Godot game with Phonon, Gradium's on-device text-to-speech model. The speech is generated on the player's machine. There is no server and no API key.
 
 The plugin adds one node, `PhononSpeaker`. It is a GDExtension written in Rust, on top of the [`ptts`](https://crates.io/crates/ptts) runtime.
@@ -8,7 +10,9 @@ This is a first version. It runs on desktop: macOS, Linux and Windows. See [Plat
 
 ## Install
 
-1. Download the `phonon-godot-addon` artifact from the latest successful run of the [Build workflow](../../actions/workflows/build.yml) on `main`.
+Once the addon is on the [Godot Asset Store](https://store.godotengine.org/), install it from the editor's Asset Store tab. Until then:
+
+1. Download `phonon-godot-<version>.zip` from a [release](../../releases), or the `phonon-godot-addon` artifact of the latest successful run of the [Build workflow](../../actions/workflows/build.yml) on `main`.
 2. Extract it into your project folder, so that `addons/phonon/phonon.gdextension` is inside it.
 3. Restart the editor. `PhononSpeaker` now appears in the Create New Node dialog.
 
@@ -182,7 +186,11 @@ The first import of a fresh checkout can crash while Godot exits. The import its
 
 ## CI
 
-`.github/workflows/build.yml` checks formatting and runs clippy. It builds the library for macOS (one universal library), Linux x86_64 and Windows x86_64, and uploads the assembled addon as the `phonon-godot-addon` artifact.
+`.github/workflows/build.yml` checks formatting and runs clippy. It builds the library for macOS (one universal library), Linux x86_64 and Windows x86_64, and uploads the assembled addon as the `phonon-godot-addon` artifact. It also zips the addon as `phonon-godot-<version>.zip`, with `addons/phonon/` at the root of the zip, and installs that zip into a new project on Linux, Windows and macOS to run the smoke test there.
+
+## Releasing
+
+Pushing a tag `v<version>`, where `<version>` is the one in `Cargo.toml`, runs the same workflow and attaches `phonon-godot-<version>.zip` to a draft GitHub release. That zip is the file to upload to the Godot Asset Store. [`store/launch-checklist.md`](store/launch-checklist.md) lists the steps, and [`store/listing.md`](store/listing.md) is a draft of the store listing. The `store/` folder also holds the thumbnail, the screenshots and the full-size Phonon logo.
 
 ## License
 
