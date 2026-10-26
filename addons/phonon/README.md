@@ -32,7 +32,7 @@ The default model is Phonon 31m, `hf://gradium/phonon-31m-en`, which speaks Engl
 
 The Phonon 40m models (`hf://gradium/phonon-40m-en`, `-fr`, `-de`, `-es`, `-pt` and `hf://gradium/phonon-40m-multilingual`) are under CC BY-NC 4.0, which does not allow commercial use. A commercial game needs a license from Gradium to use them. To get one, contact Gradium. <!-- TODO: commercial contact --> The [model table on the Phonon 31m page](https://huggingface.co/gradium/phonon-31m-en#the-phonon-family) lists the license of each model.
 
-Voices from the voice catalog [`gradium/phonon-voices`](https://huggingface.co/gradium/phonon-voices) have their own terms. Check the catalog page before you ship one.
+The voices other than the model's default come from the voice catalog [`gradium/phonon-voices`](https://huggingface.co/gradium/phonon-voices), which is under Apache 2.0, as its Hugging Face page states.
 
 ## Model download
 

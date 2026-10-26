@@ -123,7 +123,7 @@ The Phonon 40m models are also gated on Hugging Face. Accept the terms on the mo
 
 Set `language` to the language of the model and of your text. Phonon 31m speaks English.
 
-The default voice comes with the model. The other voices come from the voice catalog [`gradium/phonon-voices`](https://huggingface.co/gradium/phonon-voices). Each one downloads the first time it is used. The voices have their own terms, so check the catalog page before you ship one.
+The default voice comes with the model. The other voices come from the voice catalog [`gradium/phonon-voices`](https://huggingface.co/gradium/phonon-voices). Each one downloads the first time it is used. The voice catalog is under Apache 2.0, as its Hugging Face page states.
 
 To get the same files on every machine, pin a commit: `hf://gradium/phonon-31m-en@<commit>`. The default model is pinned.
 
