@@ -238,9 +238,11 @@ jobs:
           printf 'config_version=5\n\n[application]\n\nconfig/name="Phonon Zip Test"\n' > project/project.godot
           unzip -q dist/*.zip -d project
           cp demo/tests/smoke_test.gd project/tests/
-          # The first import of a new project with a GDExtension can crash while Godot exits,
-          # after the import has finished, so only the second one has to succeed.
-          "$GODOT" --headless --path project --import || true
+          # Godot 4.7 crashes at the end of a headless import when an extension that registers
+          # classes is first found during the import (godotengine/godot#111645, fixed by the open
+          # godotengine/godot#123658). Listing the extension up front loads it at start-up instead.
+          mkdir -p project/.godot
+          echo "res://addons/phonon/phonon.gdextension" > project/.godot/extension_list.cfg
           "$GODOT" --headless --path project --import
       - name: Run the smoke test
         shell: bash

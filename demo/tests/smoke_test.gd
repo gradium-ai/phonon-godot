@@ -5,6 +5,9 @@ extends SceneTree
 ##
 ##   godot --headless --path demo --import
 ##   godot --headless --path demo --script res://tests/smoke_test.gd -- OUTPUT_DIR [QUANT]
+##
+## On a fresh checkout, list the extension in .godot/extension_list.cfg before the import, as
+## the README's "Smoke test" section shows, to avoid a Godot crash at the end of the import.
 
 const TIMEOUT_MS := 600_000
 

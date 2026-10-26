@@ -180,11 +180,13 @@ The build uses the same settings as the `ptts` release builds. `.cargo/config.to
 `demo/tests/smoke_test.gd` loads the default model, writes WAV files of synthesized and spoken lines, and checks the signals of `speak()` and `stop()`. It runs headless:
 
 ```sh
+mkdir -p demo/.godot
+echo "res://addons/phonon/phonon.gdextension" > demo/.godot/extension_list.cfg
 godot --headless --path demo --import
 godot --headless --path demo --script res://tests/smoke_test.gd -- /tmp/phonon-test
 ```
 
-The first import of a fresh checkout can crash while Godot exits. The import itself has finished by then, and later runs work.
+The first two lines work around a Godot bug. When a headless import (or export) of a project without a `.godot` folder finds an extension that registers classes, Godot 4.7 crashes while it exits, after the import has finished. The editor queues documentation for the new classes and runs it after it has freed the documentation ([godotengine/godot#111645](https://github.com/godotengine/godot/issues/111645), with an open fix in [godotengine/godot#123658](https://github.com/godotengine/godot/pull/123658)). Listing the extension in `.godot/extension_list.cfg` loads it at start-up, which avoids the crash, as does running the import a second time. Opening a project in the editor window is not affected, and neither are exported games. Headless imports and exports of your own project, for example in CI, need the same workaround on a fresh checkout.
 
 ## CI
 
