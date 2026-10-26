@@ -109,6 +109,8 @@ jobs:
     needs: [lint, build]
     runs-on: ubuntu-22.04
     timeout-minutes: 10
+    outputs:
+      zip: ${{ steps.zip.outputs.zip }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
@@ -130,9 +132,129 @@ jobs:
           grep -o 'res://addons/phonon/bin/[^"]*' addons/phonon/phonon.gdextension | sort -u |
             while read -r path; do test -f "package/${path#res://}" || { echo "::error::missing ${path}"; exit 1; }; done
           find package -type f | sort
+      # phonon-godot-<version>.zip is what the Asset Store gets: addons/phonon/ at its root,
+      # with nothing else in it.
+      - name: Zip the addon
+        id: zip
+        run: |
+          set -euo pipefail
+          version=$(sed -n 's/^version = "\(.*\)"$/\1/p' Cargo.toml | head -n 1)
+          if [[ "$GITHUB_REF" == refs/tags/v* && "$GITHUB_REF_NAME" != "v$version" ]]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match version $version in Cargo.toml"
+            exit 1
+          fi
+          zip="phonon-godot-$version.zip"
+          mkdir dist
+          (cd package && zip -r -X -q "../dist/$zip" addons)
+          unzip -Z1 "dist/$zip" > contents.txt
+          if grep -v '^addons/phonon/' contents.txt | grep -v '^addons/$' ||
+             grep -E '(^|/)(\.DS_Store|__MACOSX|\.git[^/]*|Thumbs\.db)(/|$)' contents.txt; then
+            echo "::error::unexpected files in $zip"
+            exit 1
+          fi
+          # The store takes at most 1 GB per version.
+          test "$(stat -c %s "dist/$zip")" -lt 1000000000
+          ls -l dist
+          echo "zip=$zip" >> "$GITHUB_OUTPUT"
       # The artifact's zip holds addons/phonon/ at its root, ready to extract into a project.
       - uses: actions/upload-artifact@v7
         with:
           name: phonon-godot-addon
           path: package
           if-no-files-found: error
+      - uses: actions/upload-artifact@v7
+        with:
+          name: phonon-godot-zip
+          path: dist/${{ steps.zip.outputs.zip }}
+          if-no-files-found: error
+
+  test-zip:
+    name: Test the zip / ${{ matrix.platform }}
+    needs: package
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux
+            runner: ubuntu-22.04
+            godot: Godot_v4.7.2-stable_linux.x86_64.zip
+          - platform: windows
+            runner: windows-2022
+            godot: Godot_v4.7.2-stable_win64.exe.zip
+          - platform: macos
+            runner: macos-15
+            godot: Godot_v4.7.2-stable_macos.universal.zip
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: phonon-godot-zip
+          path: dist
+      - name: Install Godot
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL -o godot.zip "https://github.com/godotengine/godot/releases/download/4.7.2-stable/${{ matrix.godot }}"
+          unzip -q godot.zip -d godot
+          case "$RUNNER_OS" in
+            Linux) godot=$(find godot -name 'Godot_*' -type f | head -n 1); chmod +x "$godot" ;;
+            Windows) godot=$(find godot -name '*_console.exe' | head -n 1) ;;
+            macOS) godot=godot/Godot.app/Contents/MacOS/Godot ;;
+          esac
+          echo "GODOT=$PWD/$godot" >> "$GITHUB_ENV"
+      # A new project with the zip extracted into it, as a user of the store would have.
+      - name: Install the zip into a new project
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p project/tests
+          printf 'config_version=5\n\n[application]\n\nconfig/name="Phonon Zip Test"\n' > project/project.godot
+          unzip -q dist/*.zip -d project
+          cp demo/tests/smoke_test.gd project/tests/
+          # The first import of a new project with a GDExtension can crash while Godot exits,
+          # after the import has finished, so only the second one has to succeed.
+          "$GODOT" --headless --path project --import || true
+          "$GODOT" --headless --path project --import
+      - name: Run the smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$PWD/out"
+          if [ "$RUNNER_OS" = Windows ]; then out=$(cygpath -m "$out"); fi
+          "$GODOT" --headless --path project --script res://tests/smoke_test.gd -- "$out"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: smoke-test-${{ matrix.platform }}
+          path: out
+          if-no-files-found: ignore
+
+  release:
+    name: Draft the GitHub release
+    needs: [package, test-zip]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: phonon-godot-zip
+          path: dist
+      - name: Attach the zip to a draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+          ZIP: ${{ needs.package.outputs.zip }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "dist/$ZIP" --clobber
+          else
+            gh release create "$TAG" "dist/$ZIP" --verify-tag --draft --title "Phonon for Godot ${TAG#v}" \
+              --notes "$ZIP is the addon for the Godot Asset Store: addons/phonon/ with the libraries for macOS, Linux x86_64 and Windows x86_64."
+          fi
