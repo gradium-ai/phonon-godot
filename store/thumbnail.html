@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- Source of thumbnail.png, the store's 16:9 thumbnail. Render it at 1920x1080:
+     chrome --headless --hide-scrollbars --force-device-scale-factor=1 \
+       --window-size=1920,1080 --screenshot=thumbnail.png thumbnail.html -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 1920px; height: 1080px; background: #000; overflow: hidden; }
+  body { display: flex; align-items: center; gap: 110px; padding-left: 210px; box-sizing: border-box;
+         font-family: Inter, "Helvetica Neue", Arial, sans-serif; color: #fff; }
+  img { width: 600px; height: 600px; }
+  h1 { margin: 0 0 28px; font-size: 150px; font-weight: 600; letter-spacing: -3px; line-height: 1; }
+  p { margin: 0; font-size: 64px; line-height: 1.4; color: #a8a8a8; }
+  p.godot { color: #daff53; }
+</style>
+</head>
+<body>
+  <img src="phonon-monogram.png" alt="">
+  <div>
+    <h1>Phonon</h1>
+    <p>On-device text-to-speech</p>
+    <p class="godot">for Godot</p>
+  </div>
+</body>
+</html>
