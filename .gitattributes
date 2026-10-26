@@ -1,0 +1,6 @@
+# Normalize line endings for all files that Git considers text files.
+* text=auto eol=lf
+
+# The Asset Store gets the zip that the release workflow builds, not an archive of this
+# repository. The store media and listing draft stay out of source archives as well.
+/store export-ignore
