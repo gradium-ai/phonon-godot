@@ -40,4 +40,4 @@ The first `load_model()` downloads the model from Hugging Face. In the editor it
 
 ## License
 
-The addon code is licensed under MIT OR Apache-2.0, at your option. See `LICENSE-MIT` and `LICENSE-APACHE`.
+The addon code is licensed under MIT OR Apache-2.0, at your option. See `LICENSE`.

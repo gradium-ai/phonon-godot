@@ -186,7 +186,7 @@ The first import of a fresh checkout can crash while Godot exits. The import its
 
 ## License
 
-The plugin code is licensed under **MIT OR Apache-2.0**, at your option: [MIT](LICENSE-MIT), [Apache-2.0](LICENSE-APACHE).
+The plugin code is licensed under **MIT OR Apache-2.0**, at your option. [LICENSE](LICENSE) states this with both full texts, which are also in [LICENSE-MIT](LICENSE-MIT) and [LICENSE-APACHE](LICENSE-APACHE). The addon folder keeps a copy of `LICENSE`, so it travels with the addon.
 
 The models and voices are not part of this repository and have their own licenses. See [Models and licenses](#models-and-licenses).
 

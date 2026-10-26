@@ -124,7 +124,8 @@ jobs:
             mkdir -p "package/addons/phonon/bin/$platform"
             cp "libs/lib-$platform"/* "package/addons/phonon/bin/$platform/"
           done
-          cp LICENSE-MIT LICENSE-APACHE package/addons/phonon/
+          # The store wants the license inside the download, so the addon keeps a copy.
+          cmp LICENSE addons/phonon/LICENSE || { echo "::error::addons/phonon/LICENSE differs from LICENSE"; exit 1; }
           # Every library the .gdextension file names must be in the package.
           grep -o 'res://addons/phonon/bin/[^"]*' addons/phonon/phonon.gdextension | sort -u |
             while read -r path; do test -f "package/${path#res://}" || { echo "::error::missing ${path}"; exit 1; }; done
