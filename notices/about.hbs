@@ -1,0 +1,31 @@
+# Third-party notices
+
+The Phonon libraries in `bin/` are built from this addon's source and from the Rust crates listed below, which are compiled into them. This file names the license of each one and gives the full text of every license used. It was generated with cargo-about for all the platforms the addon ships.
+
+The Phonon models and voices are not part of the addon. A game downloads them when it first loads them, and they come under their own licenses: see "Models and licenses" in `README.md`.
+
+## Notes
+
+- The crates under the Mozilla Public License 2.0 are listed in its section below: the godot-rust crates (`godot` and `godot-*`) and a few small ones. The addon uses them unmodified, and their source code is available on <https://crates.io> at the listed versions, and godot-rust's also at <https://github.com/godot-rust/gdext>.
+- On Apple silicon, the macOS library also contains Arm's KleidiAI kernels, which the `xn` crate vendors and compiles. KleidiAI is Copyright 2024-2026 Arm Limited and/or its affiliates and licensed under the Apache License 2.0, whose text is below. Its source is at <https://github.com/ARM-software/kleidiai>.
+
+## Licenses used
+
+{{#each overview}}
+- {{{name}}} ({{count}})
+{{/each}}
+
+{{#each licenses}}
+## {{{name}}}
+
+Used by:
+
+{{#each used_by}}
+- {{crate.name}} {{crate.version}}{{#if crate.repository}} ({{crate.repository}}){{/if}}
+{{/each}}
+
+```text
+{{{text}}}
+```
+
+{{/each}}

@@ -104,9 +104,29 @@ jobs:
           path: staged/${{ matrix.platform }}
           if-no-files-found: error
 
+  notices:
+    name: Third-party notices
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-about@0.9.3
+      # One file for every crate compiled into the libraries of all shipped platforms (the targets
+      # are in about.toml). It fails when a crate's license is not in the accepted list there.
+      - name: Generate THIRD_PARTY_NOTICES.md
+        run: cargo about generate --locked --fail -c about.toml -o THIRD_PARTY_NOTICES.md notices/about.hbs
+      - uses: actions/upload-artifact@v7
+        with:
+          name: notices
+          path: THIRD_PARTY_NOTICES.md
+          if-no-files-found: error
+
   package:
     name: Package the addon
-    needs: [lint, build]
+    needs: [lint, build, notices]
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     outputs:
@@ -117,6 +137,10 @@ jobs:
         with:
           pattern: lib-*
           path: libs
+      - uses: actions/download-artifact@v8
+        with:
+          name: notices
+          path: notices-out
       - name: Assemble addons/phonon
         run: |
           set -euo pipefail
@@ -126,6 +150,7 @@ jobs:
             mkdir -p "package/addons/phonon/bin/$platform"
             cp "libs/lib-$platform"/* "package/addons/phonon/bin/$platform/"
           done
+          cp notices-out/THIRD_PARTY_NOTICES.md package/addons/phonon/
           # The store wants the license inside the download, so the addon keeps a copy.
           cmp LICENSE addons/phonon/LICENSE || { echo "::error::addons/phonon/LICENSE differs from LICENSE"; exit 1; }
           # Every library the .gdextension file names must be in the package.

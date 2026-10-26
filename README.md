@@ -171,6 +171,8 @@ cp target/release/libphonon_godot.dylib addons/phonon/bin/macos/
 
 On Linux, copy `target/release/libphonon_godot.so` to `addons/phonon/bin/linux/libphonon_godot.x86_64.so`. On Windows, copy `target\release\phonon_godot.dll` to `addons\phonon\bin\windows\phonon_godot.x86_64.dll`.
 
+To write the third-party notices as CI does, install cargo-about and run `cargo about generate --locked --fail -c about.toml -o addons/phonon/THIRD_PARTY_NOTICES.md notices/about.hbs`.
+
 The build uses the same settings as the `ptts` release builds. `.cargo/config.toml` sets fixed CPU baselines, never `target-cpu=native`, because the libraries run on players' machines. On macOS, `Cargo.toml` turns on Accelerate, and on Apple silicon also Metal and Arm's KleidiAI kernels.
 
 ### Smoke test
@@ -186,7 +188,7 @@ The first import of a fresh checkout can crash while Godot exits. The import its
 
 ## CI
 
-`.github/workflows/build.yml` checks formatting and runs clippy. It builds the library for macOS (one universal library), Linux x86_64 and Windows x86_64, and uploads the assembled addon as the `phonon-godot-addon` artifact. It also zips the addon as `phonon-godot-<version>.zip`, with `addons/phonon/` at the root of the zip, and installs that zip into a new project on Linux, Windows and macOS to run the smoke test there.
+`.github/workflows/build.yml` checks formatting and runs clippy. It builds the library for macOS (one universal library), Linux x86_64 and Windows x86_64, adds the third-party notices, and uploads the assembled addon as the `phonon-godot-addon` artifact. It also zips the addon as `phonon-godot-<version>.zip`, with `addons/phonon/` at the root of the zip, and installs that zip into a new project on Linux, Windows and macOS to run the smoke test there.
 
 ## Releasing
 
@@ -195,6 +197,8 @@ Pushing a tag `v<version>`, where `<version>` is the one in `Cargo.toml`, runs t
 ## License
 
 The plugin code is licensed under **MIT OR Apache-2.0**, at your option. [LICENSE](LICENSE) states this with both full texts, which are also in [LICENSE-MIT](LICENSE-MIT) and [LICENSE-APACHE](LICENSE-APACHE). The addon folder keeps a copy of `LICENSE`, so it travels with the addon.
+
+The libraries also contain third-party code: the Rust crates compiled into them, among them godot-rust under MPL-2.0, and Arm's KleidiAI kernels on Apple silicon. `THIRD_PARTY_NOTICES.md` in the addon lists them with the full license texts. CI generates it with [cargo-about](https://github.com/EmbarkStudios/cargo-about) from [`about.toml`](about.toml), which also lists the licenses a crate may use; a crate under any other license fails the build.
 
 The models and voices are not part of this repository and have their own licenses. See [Models and licenses](#models-and-licenses).
 
