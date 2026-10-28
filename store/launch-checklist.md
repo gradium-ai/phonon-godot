@@ -4,10 +4,7 @@ What is left to put Phonon Text-to-Speech on the [Godot Asset Store](https://sto
 
 ## Before the first submission
 
-1. Fill in the commercial contact for the Phonon 40m models. Search for `TODO: commercial contact` in `README.md`, `addons/phonon/README.md` and `store/listing.md`.
-2. Confirm the copyright holder in `LICENSE` and `addons/phonon/LICENSE` (now "Gradium").
-3. Make the repository public. The listing links to its source and to `LICENSE`, and both links must work for reviewers and users.
-4. Create a store account at <https://store.godotengine.org/login>, with GitHub or a new account, and decide who owns the publisher.
+Create a store account at <https://store.godotengine.org/login>, with GitHub or a new account, and decide who owns the publisher.
 
 ## Release the version
 

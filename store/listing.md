@@ -39,7 +39,7 @@ This folder is export-ignored, and none of it goes into the addon zip.
 >
 > **Models and licenses.** The default model is Phonon 31m, which speaks English. It is under Apache 2.0, so you can ship it in a commercial game. The first `load_model()` downloads it from Hugging Face, so the game needs an internet connection once. Exported games keep it in their `user://` folder. The voice catalog is under Apache 2.0 too.
 >
-> The plugin can also load the Phonon 40m models, in English, French, German, Spanish and Portuguese, and Phonon 40m multilingual. These are under CC BY-NC 4.0, which does not allow commercial use. A commercial game needs a license from Gradium to use them: contact Gradium. <!-- TODO: commercial contact -->
+> The plugin can also load the Phonon 40m models, in English, French, German, Spanish and Portuguese, and Phonon 40m multilingual. These are under CC BY-NC 4.0, which does not allow commercial use. A commercial game needs a license from Gradium to use them: talk to Gradium's sales team at https://gradium.ai/contact?subject=Sales.
 >
 > **Platforms.** Godot 4.7 or later, on macOS 15 or later (Apple silicon and Intel), Linux x86_64 and Windows x86_64. The x86_64 libraries need a CPU with AVX2. Android, iOS and web exports are not supported yet.
 >

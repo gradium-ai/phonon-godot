@@ -121,7 +121,7 @@ Set `player` to an `AudioStreamPlayer2D` or `AudioStreamPlayer3D` on the charact
 
 Phonon 31m is the default. It is under Apache 2.0, so you can ship it in a commercial game.
 
-The Phonon 40m models are under CC BY-NC 4.0, which does not allow commercial use. You can try them with the plugin, but a commercial game needs a license from Gradium to use them. To get one, contact Gradium. <!-- TODO: commercial contact --> The [model table on the Phonon 31m page](https://huggingface.co/gradium/phonon-31m-en#the-phonon-family) lists the license of each model.
+The Phonon 40m models are under CC BY-NC 4.0, which does not allow commercial use. You can try them with the plugin, but a commercial game needs a license from Gradium to use them. To get one, [talk to Gradium's sales team](https://gradium.ai/contact?subject=Sales). The [model table on the Phonon 31m page](https://huggingface.co/gradium/phonon-31m-en#the-phonon-family) lists the license of each model.
 
 The Phonon 40m models are also gated on Hugging Face. Accept the terms on the model's page, then set `HF_TOKEN` or run `hf auth login` before you load one. Players have no token, so a game cannot download a gated model for them.
 
