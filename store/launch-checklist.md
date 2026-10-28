@@ -17,7 +17,7 @@ Create a store account at <https://store.godotengine.org/login>, with GitHub or 
 
 1. Click **Upload Asset**, and fill in the publisher and the asset name and URL from `store/listing.md`. Read and accept the terms of service.
 2. **Settings**: summary, description, tags, asset type, license, source link and AI disclosure, from `store/listing.md`.
-3. **Media**: upload `store/thumbnail.png`, then `store/screenshot-demo.png` and `store/screenshot-inspector.png`.
+3. **Media**: upload `store/thumbnail.jpg`, then `store/screenshot-demo.png` and `store/screenshot-inspector.png`.
 4. **Versions**: upload `phonon-godot-0.1.0.zip` from the release, with the name, changelog and Godot versions from `store/listing.md`.
 5. **Pricing**: free.
 6. **Overview**: submit for review. The store reviews each version by hand, and a rejection says why.
