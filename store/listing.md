@@ -65,7 +65,7 @@ All of them exist on the store already, so the listing shows up in their searche
 
 | Field | File |
 |---|---|
-| Thumbnail (16:9, required) | `thumbnail.png`, 1920x1080: the Phonon monogram on Gradium's gallery template (blue colourway, flow pattern), rendered with the design team's thumbnail generator and cropped from 3:2 to 16:9 |
+| Thumbnail (16:9, required) | `thumbnail.png`, 1920x1080: the whole Phonon monogram and "Phonon / On-device text-to-speech / for Godot" on the background of Gradium's thumbnail generator (blue colourway, flow pattern), drawn at 16:9. The text is set in Inter (SIL Open Font License); design may swap in the brand font. |
 | Screenshot 1 | `screenshot-demo.png`, the demo scene speaking a line |
 | Screenshot 2 | `screenshot-inspector.png`, a PhononSpeaker node in the inspector |
 | Featured image | None |
