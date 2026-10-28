@@ -10,8 +10,8 @@ This folder is export-ignored, and none of it goes into the addon zip.
 |---|---|
 | Publisher | Gradium. **Check**: the public publisher name. |
 | Publisher URL slug | `gradium` |
-| Asset name | Phonon Text-to-Speech |
-| Asset URL | `phonon-text-to-speech` |
+| Asset name | Phonon TTS by Gradium |
+| Asset URL | `phonon-tts-by-gradium` |
 
 ## Settings tab
 
@@ -21,7 +21,7 @@ This folder is export-ignored, and none of it goes into the addon zip.
 
 **Detailed description**
 
-> Phonon Text-to-Speech adds one node, PhononSpeaker, that speaks text with Phonon, Gradium's on-device text-to-speech model. The speech is generated on the player's machine. There is no server and no API key.
+> Phonon TTS by Gradium adds one node, PhononSpeaker, that speaks text with Phonon, Gradium's on-device text-to-speech model. The speech is generated on the player's machine. There is no server and no API key.
 >
 > - `speak(text)` starts playing as soon as the first audio is ready, while the rest of the line is still being generated. `stop()` cuts it off.
 > - `synthesize(text)` generates a line ahead of time and returns it as an AudioStreamWAV.

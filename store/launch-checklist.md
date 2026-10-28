@@ -1,6 +1,6 @@
 # Asset Store launch checklist
 
-What is left to put Phonon Text-to-Speech on the [Godot Asset Store](https://store.godotengine.org/). The store takes an uploaded zip for each version; it does not build from the repository. Its rules are on the [guidelines page](https://store.godotengine.org/guidelines/) and in the Godot docs, [Submitting to the Asset Store](https://docs.godotengine.org/en/stable/community/asset_store/submitting_to_asset_store.html).
+What is left to put Phonon TTS by Gradium on the [Godot Asset Store](https://store.godotengine.org/). The store takes an uploaded zip for each version; it does not build from the repository. Its rules are on the [guidelines page](https://store.godotengine.org/guidelines/) and in the Godot docs, [Submitting to the Asset Store](https://docs.godotengine.org/en/stable/community/asset_store/submitting_to_asset_store.html).
 
 ## Before the first submission
 
