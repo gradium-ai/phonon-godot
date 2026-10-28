@@ -8,7 +8,7 @@ This folder is export-ignored, and none of it goes into the addon zip.
 
 | Field | Value |
 |---|---|
-| Publisher | Gradium. **Check**: the public publisher name. |
+| Publisher | Gradium |
 | Publisher URL slug | `gradium` |
 | Asset name | Phonon TTS by Gradium |
 | Asset URL | `phonon-tts-by-gradium` |
