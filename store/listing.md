@@ -59,13 +59,13 @@ All of them exist on the store already, so the listing shows up in their searche
 
 **AI usage disclosure** (mandatory when AI was used). **Check**: confirm or rewrite this before submitting.
 
-> The plugin's Rust and GDScript code, its documentation, the editor class icon and the thumbnail layout were written with the help of an AI coding assistant (a large language model). They were reviewed and tested by the developers. The Phonon logo is Gradium's own artwork. At run time, the plugin uses Phonon, a neural text-to-speech model, to generate speech.
+> The plugin's Rust and GDScript code, its documentation and the editor class icon were written with the help of an AI coding assistant (a large language model). They were reviewed and tested by the developers. The Phonon logo and the thumbnail's design template are Gradium's own artwork. At run time, the plugin uses Phonon, a neural text-to-speech model, to generate speech.
 
 ## Media tab
 
 | Field | File |
 |---|---|
-| Thumbnail (16:9, required) | `thumbnail.png`, 1920x1080, rendered from `thumbnail.html` and `phonon-monogram.png` |
+| Thumbnail (16:9, required) | `thumbnail.png`, 1920x1080: the Phonon monogram on Gradium's gallery template (blue colourway, flow pattern), rendered with the design team's thumbnail generator and cropped from 3:2 to 16:9 |
 | Screenshot 1 | `screenshot-demo.png`, the demo scene speaking a line |
 | Screenshot 2 | `screenshot-inspector.png`, a PhononSpeaker node in the inspector |
 | Featured image | None |
