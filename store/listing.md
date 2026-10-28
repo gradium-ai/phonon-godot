@@ -43,7 +43,7 @@ This folder is export-ignored, and none of it goes into the addon zip.
 >
 > **Platforms.** Godot 4.7 or later, on macOS 15 or later (Apple silicon and Intel), Linux x86_64 and Windows x86_64. The x86_64 libraries need a CPU with AVX2. Android, iOS and web exports are not supported yet.
 >
-> The plugin code is licensed under MIT OR Apache-2.0, at your option, so the Apache 2.0 license shown on this page is one of the two. The source, the full documentation and a demo project are on GitHub.
+> The plugin code is licensed under MIT OR Apache-2.0, at your option, so the Apache 2.0 license shown on this page is one of the two.
 
 **Tags** (the store suggests at most ten; none may be the asset's name):
 
@@ -53,9 +53,9 @@ All of them exist on the store already, so the listing shows up in their searche
 
 **Asset type:** Addon
 
-**License:** Apache 2.0, from the built-in list (selected). The code is MIT OR Apache-2.0, so Apache 2.0 is one of its two licenses, and the description says so in its last paragraph. If a reviewer asks for an exact match with `LICENSE`, switch this to a custom license named `MIT OR Apache-2.0` linking to `https://github.com/gradium-ai/phonon-godot/blob/main/LICENSE`.
+**License:** Apache 2.0, from the built-in list (selected). The code is MIT OR Apache-2.0, so Apache 2.0 is one of its two licenses, and the description says so in its last paragraph. If a reviewer asks for an exact match with `LICENSE`, switch this to a custom license named `MIT OR Apache-2.0`.
 
-**Link to source code:** `https://github.com/gradium-ai/phonon-godot`, once the repository is public.
+**Link to source code:** leave empty.
 
 **AI usage disclosure** (mandatory when AI was used). **Check**: confirm or rewrite this before submitting.
 
@@ -78,7 +78,7 @@ All of them exist on the store already, so the listing shows up in their searche
 | Field | Value |
 |---|---|
 | Version name | 0.1.0 |
-| File | `phonon-godot-0.1.0.zip`, from the draft GitHub release `v0.1.0` |
+| File | `phonon-godot-0.1.0.zip`, the `v0.1.0` release build |
 | Changelog | First release: the PhononSpeaker node with `load_model()`, `speak()`, `stop()`, `synthesize()` and `voices()`, for macOS, Linux x86_64 and Windows x86_64. |
 | Minimum Godot version | 4.7 |
 | Maximum Godot version | None |
