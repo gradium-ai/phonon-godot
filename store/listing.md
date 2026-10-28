@@ -43,7 +43,7 @@ This folder is export-ignored, and none of it goes into the addon zip.
 >
 > **Platforms.** Godot 4.7 or later, on macOS 15 or later (Apple silicon and Intel), Linux x86_64 and Windows x86_64. The x86_64 libraries need a CPU with AVX2. Android, iOS and web exports are not supported yet.
 >
-> The plugin code is licensed under MIT OR Apache-2.0. The source, the full documentation and a demo project are on GitHub.
+> The plugin code is licensed under MIT OR Apache-2.0, at your option, so the Apache 2.0 license shown on this page is one of the two. The source, the full documentation and a demo project are on GitHub.
 
 **Tags** (the store suggests at most ten; none may be the asset's name):
 
@@ -53,7 +53,7 @@ All of them exist on the store already, so the listing shows up in their searche
 
 **Asset type:** Addon
 
-**License:** a custom license named `MIT OR Apache-2.0`, linking to `https://github.com/gradium-ai/phonon-godot/blob/main/LICENSE`. The store's built-in choices are single licenses (MIT, Apache 2.0, CC0, GPL v3), and its guidelines ask that the listed license match the one in the download. The link works once the repository is public. Choosing MIT alone is the other option: it keeps the asset in the store's MIT filter, and users may take the code under MIT, but it no longer states the dual license exactly.
+**License:** Apache 2.0, from the built-in list (selected). The code is MIT OR Apache-2.0, so Apache 2.0 is one of its two licenses, and the description says so in its last paragraph. If a reviewer asks for an exact match with `LICENSE`, switch this to a custom license named `MIT OR Apache-2.0` linking to `https://github.com/gradium-ai/phonon-godot/blob/main/LICENSE`.
 
 **Link to source code:** `https://github.com/gradium-ai/phonon-godot`, once the repository is public.
 
